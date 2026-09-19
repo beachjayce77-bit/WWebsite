@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Donut Chip — Arcade Demo</title>
+  <meta name="description" content="Donut Chip play-money arcade demo">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">🍩</div>
+        <div>
+          <strong>DONUT CHIP</strong>
+          <span>ARCADE DEMO</span>
+        </div>
+      </div>
+
+      <nav>
+        <button class="nav-item active" data-section="home">⌂ <span>Home</span></button>
+        <button class="nav-item" data-section="games">◈ <span>Games</span></button>
+        <button class="nav-item" data-section="activity">◷ <span>Activity</span></button>
+      </nav>
+
+      <div class="side-card">
+        <div class="mini-label">DEMO MODE</div>
+        <p>Every balance shown here is fictional arcade credit.</p>
+      </div>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div class="mobile-brand">🍩 DONUT CHIP</div>
+        <div class="top-actions">
+          <div class="balance"><span>CHIP</span><strong id="balance">{{ credits }}</strong></div>
+          <button class="reset-btn" id="resetBtn">Reset</button>
+        </div>
+      </header>
+
+      <section class="hero" id="home">
+        <div>
+          <div class="eyebrow">WELCOME TO THE ARCADE</div>
+          <h1>Play. Pick a game.<br><span>Stack your chips.</span></h1>
+          <p>Fast little games built for a clean, modern demo experience.</p>
+          <div class="hero-badges">
+            <span>● PLAY-MONEY ONLY</span>
+            <span>● NO CASH VALUE</span>
+          </div>
+        </div>
+        <div class="hero-art">
+          <div class="glow-ring"></div>
+          <div class="chip-stack">
+            <div class="chip c1">🍩</div>
+            <div class="chip c2">CHIP</div>
+            <div class="chip c3">+</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="games">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">ORIGINALS</div>
+            <h2>Quick Games</h2>
+          </div>
+          <div class="filter-row">
+            <button class="filter active">All</button>
+            <button class="filter">Dice</button>
+            <button class="filter">Cards</button>
+            <button class="filter">Grid</button>
+          </div>
+        </div>
+
+        <div class="game-grid">
+          <article class="game-card" data-category="Dice">
+            <div class="game-cover dice-cover">
+              <div class="dice-big">7</div>
+              <span class="tag">POPULAR</span>
+            </div>
+            <div class="game-info">
+              <div><h3>Dice Dash</h3><span>Fast roll</span></div>
+              <button class="play-btn" data-open="dice">Play</button>
+            </div>
+          </article>
+
+          <article class="game-card" data-category="Cards">
+            <div class="game-cover coin-cover">
+              <div class="coin-big">C</div>
+              <span class="tag">QUICK</span>
+            </div>
+            <div class="game-info">
+              <div><h3>Chip Flip</h3><span>Heads or tails</span></div>
+              <button class="play-btn" data-open="coin">Play</button>
+            </div>
+          </article>
+
+          <article class="game-card" data-category="Grid">
+            <div class="game-cover mines-cover">
+              <div class="mine-grid-mini">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </div>
+              <span class="tag">NEW</span>
+            </div>
+            <div class="game-info">
+              <div><h3>Chip Mines</h3><span>Reveal a safe tile</span></div>
+              <button class="play-btn" data-open="mines">Play</button>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="activity">
+        <div class="section-head">
+          <div>
+            <div class="eyebrow">YOUR SESSION</div>
+            <h2>Recent Activity</h2>
+          </div>
+        </div>
+        <div class="activity-panel" id="activityPanel">
+          <div class="empty">No rounds yet. Pick a game above.</div>
+        </div>
+      </section>
+
+      <footer>
+        <span>DONUT CHIP • PLAY-MONEY ARCADE DEMO</span>
+        <span>© 2026 Demo Project</span>
+      </footer>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="modal">
+    <div class="modal">
+      <button class="modal-close" id="closeModal">×</button>
+
+      <div class="modal-content" id="diceGame">
+        <div class="eyebrow">DICE DASH</div>
+        <h2>Roll your way to more chips.</h2>
+        <label>Amount <input type="number" id="diceAmount" value="25" min="1"></label>
+        <label>Target <input type="number" id="diceGuess" value="51" min="1" max="99"></label>
+        <button class="main-action" id="diceBtn">Roll Dice</button>
+        <div class="result" id="diceResult"></div>
+      </div>
+
+      <div class="modal-content hidden" id="coinGame">
+        <div class="eyebrow">CHIP FLIP</div>
+        <h2>Call the coin.</h2>
+        <div class="choice-row">
+          <button class="choice active" data-choice="heads">Heads</button>
+          <button class="choice" data-choice="tails">Tails</button>
+        </div>
+        <label>Amount <input type="number" id="coinAmount" value="25" min="1"></label>
+        <button class="main-action" id="coinBtn">Flip Coin</button>
+        <div class="result" id="coinResult"></div>
+      </div>
+
+      <div class="modal-content hidden" id="minesGame">
+        <div class="eyebrow">CHIP MINES</div>
+        <h2>Pick a tile.</h2>
+        <label>Amount <input type="number" id="minesAmount" value="25" min="1"></label>
+        <div class="tile-grid" id="tileGrid">
+          <button></button><button></button><button></button>
+          <button></button><button></button><button></button>
+          <button></button><button></button><button></button>
+        </div>
+        <div class="result" id="minesResult">Choose a tile to reveal it.</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
